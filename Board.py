@@ -1,7 +1,6 @@
 import pygame
 
 import BOARD_COORDINATES
-from BOARD_COORDINATES import *
 
 
 class Board:
