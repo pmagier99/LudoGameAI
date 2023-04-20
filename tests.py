@@ -1,5 +1,6 @@
 import unittest
-from main import *
+from Game import *
+from agent import *
 
 
 class MyTestCase(unittest.TestCase):
@@ -72,7 +73,56 @@ class MyTestCase(unittest.TestCase):
         game.check_for_collision(green1)
 
         self.assertEqual(1, game.players[0].active_pawns)
-        self.assertNotEquals(yellow2.position, yellow1.position)
+        self.assertNotEqual(yellow2.position, yellow1.position)
+
+    def testState(self):
+        agent = Agent()
+        game = Game()
+        game.players[0].pawn_out()
+        game.players[3].pawn_out()
+
+        yellow = game.players[0].get_active_pawn()
+        green = game.players[3].get_active_pawn()
+
+        game.players[3].move_piece(green, 5)
+
+        state = agent.get_state(game, 5, 0)
+        print(state)
+
+        self.assertTrue(np.array_equal([5, 1, 0, 1, 0, 0, 0, 0, 0], state))
+
+    def testState2(self):
+        agent = Agent()
+        game = Game()
+        game.players[2].pawn_out()
+        game.players[3].pawn_out()
+
+        red = game.players[2].get_active_pawn()
+        green = game.players[3].get_active_pawn()
+
+        game.players[3].move_piece(green, 12)
+        game.players[2].move_piece(red, 18)
+
+        state = agent.get_state(game, 4, 2)
+        print(red.position)
+        print(green.position)
+        print(state)
+
+        self.assertTrue(np.array_equal([4, 1, 1, 0, 0, 0, 0, 0, 0], state))
+
+    def testState3(self):
+        agent = Agent()
+        game = Game()
+        game.players[0].pawn_out()
+
+        yellow = game.players[2].get_active_pawn()
+
+        game.players[2].move_piece(yellow, 35)
+
+        state = agent.get_state(game, 4, 0)
+        print(state)
+
+        self.assertTrue(np.array_equal([4, 1, 0, 0, 1, 0, 0, 0, 0], state))
 
 
 if __name__ == '__main__':

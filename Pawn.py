@@ -16,8 +16,6 @@ class Pawn:
         self.complete_path = 0
         self.active = False
 
-
-
     def move(self, place):
         self.set_position(self.colour)
         self.position += place
